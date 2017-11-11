@@ -1,29 +1,29 @@
 package rssemitter
 
 import (
-	"fmt"
+	// "fmt"
 
-	"github.com/chuckpreslar/emission"
+	// "github.com/chuckpreslar/emission"
 	"github.com/mmcdole/gofeed"
 )
 
 type FeedEmitter interface {
-	Add(gofeed.Feed) void
+	Add(gofeed.Feed)
 	List() []gofeed.Feed
-	Remove(gofeed.Feed) void
-	Destroy() void
+	Remove(gofeed.Feed)
+	Destroy()
 }
 
 type RssFeedEmitter struct {
-	feeds []gofeed.Feed
-	parser gofeed.Parser
+	feeds  []gofeed.Feed
+	parser *gofeed.Parser
 }
 
 func NewFeedEmitter() *RssFeedEmitter {
 	feedEmitter := RssFeedEmitter{
-		parser: gofeed.NewParser()
+		parser: gofeed.NewParser(),
 	}
-	return feedEmitter
+	return &feedEmitter
 }
 
 func (r RssFeedEmitter) Add(url string) {
@@ -36,22 +36,22 @@ func (r RssFeedEmitter) Add(url string) {
 	if err != nil {
 		return
 	}
-	r.feeds = append(r.feeds, newFeed)
+	r.feeds = append(r.feeds, *newFeed)
 }
 
 func (r RssFeedEmitter) List() *[]gofeed.Feed {
-	return r.feeds
+	return &r.feeds
 }
 
 func (r RssFeedEmitter) Remove(url string) {
-	for i = 0; i < len(r.feeds); i++ {
-		if r.feeds[i].FeedLink = url {
-			r.feeds = append(r.feeds[:i], a[i+1:]...)
+	for i := 0; i < len(r.feeds); i++ {
+		if r.feeds[i].FeedLink == url {
+			r.feeds = append(r.feeds[:i], r.feeds[i+1:]...)
 		}
 	}
 }
 
-func (r RssFeedEmitter) Destroy() *RssFeedEmitter{
-	r = NewFeedEmitter()
-	return r
+func (r RssFeedEmitter) Destroy() *RssFeedEmitter {
+	r = *NewFeedEmitter()
+	return &r
 }
