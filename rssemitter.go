@@ -4,24 +4,54 @@ import (
 	"fmt"
 
 	"github.com/chuckpreslar/emission"
+	"github.com/mmcdole/gofeed"
 )
 
-func main() {
-	// fmt.Println("Hello World")
-	emitter := emission.NewEmitter()
+type FeedEmitter interface {
+	Add(gofeed.Feed) void
+	List() []gofeed.Feed
+	Remove(gofeed.Feed) void
+	Destroy() void
+}
 
-	hello := func(to string) {
-		fmt.Printf("Hello %s!\n", to)
+type RssFeedEmitter struct {
+	feeds []gofeed.Feed
+	parser gofeed.Parser
+}
+
+func NewFeedEmitter() *RssFeedEmitter {
+	feedEmitter := RssFeedEmitter{
+		parser: gofeed.NewParser()
 	}
+	return feedEmitter
+}
 
-	count := func(count int) {
-		for i := 0; i < count; i++ {
-			fmt.Println(i)
+func (r RssFeedEmitter) Add(url string) {
+	for _, feed := range r.feeds {
+		if feed.FeedLink == url {
+			return
 		}
 	}
+	newFeed, err := r.parser.ParseURL(url)
+	if err != nil {
+		return
+	}
+	r.feeds = append(r.feeds, newFeed)
+}
 
-	emitter.On("hello", hello).
-		On("count", count).
-		Emit("hello", "world").
-		Emit("count", 5)
+func (r RssFeedEmitter) List() *[]gofeed.Feed {
+	return r.feeds
+}
+
+func (r RssFeedEmitter) Remove(url string) {
+	for i = 0; i < len(r.feeds); i++ {
+		if r.feeds[i].FeedLink = url {
+			r.feeds = append(r.feeds[:i], a[i+1:]...)
+		}
+	}
+}
+
+func (r RssFeedEmitter) Destroy() *RssFeedEmitter{
+	r = NewFeedEmitter()
+	return r
 }
