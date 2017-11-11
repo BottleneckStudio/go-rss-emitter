@@ -4,24 +4,12 @@ import (
 	"fmt"
 
 	"github.com/chuckpreslar/emission"
+	"github.com/mmcdole/gofeed"
 )
 
-func main() {
-	// fmt.Println("Hello World")
-	emitter := emission.NewEmitter()
-
-	hello := func(to string) {
-		fmt.Printf("Hello %s!\n", to)
-	}
-
-	count := func(count int) {
-		for i := 0; i < count; i++ {
-			fmt.Println(i)
-		}
-	}
-
-	emitter.On("hello", hello).
-		On("count", count).
-		Emit("hello", "world").
-		Emit("count", 5)
+type FeedEmitter interface {
+	Add(gofeed.Feed) void
+	List() []gofeed.Feed
+	Remove(gofeed.Feed) void
+	Destroy() void
 }
