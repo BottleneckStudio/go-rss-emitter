@@ -20,6 +20,8 @@ func TestListOfRss(t *testing.T) {
 
 	rssInstace := rssemitter.NewFeedEmitter()
 
+	rssInstace.Add("http://www.sunstar.com.ph/rss/cebu")
+
 	rssData := rssInstace.List()
 
 	if rssData == nil {
