@@ -31,9 +31,9 @@ func NewFeedEmitter() *RssFeedEmitter {
 
 // Add method expects a url string and adds it to the
 // list of feeds in the RssFeedEmitter
-func (r RssFeedEmitter) Add(url string) {
+func (r *RssFeedEmitter) Add(url string) {
 	for _, feed := range r.feeds {
-		if feed.FeedLink == url {
+		if feed.Link == url {
 			return
 		}
 	}
@@ -45,21 +45,21 @@ func (r RssFeedEmitter) Add(url string) {
 }
 
 // List returns the current list of feeds
-func (r RssFeedEmitter) List() *[]gofeed.Feed {
+func (r *RssFeedEmitter) List() *[]gofeed.Feed {
 	return &r.feeds
 }
 
 // Remove expects a string and removes the feed from the list
-func (r RssFeedEmitter) Remove(url string) {
+func (r *RssFeedEmitter) Remove(url string) {
 	for i := 0; i < len(r.feeds); i++ {
-		if r.feeds[i].FeedLink == url {
+		if r.feeds[i].Link == url {
 			r.feeds = append(r.feeds[:i], r.feeds[i+1:]...)
 		}
 	}
 }
 
 // Destroy clears the feed emitter
-func (r RssFeedEmitter) Destroy() *RssFeedEmitter {
-	r = *NewFeedEmitter()
-	return &r
+func (r *RssFeedEmitter) Destroy() *RssFeedEmitter {
+	r = NewFeedEmitter()
+	return r
 }
