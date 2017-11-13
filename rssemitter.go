@@ -33,7 +33,7 @@ func NewFeedEmitter() *RssFeedEmitter {
 // list of feeds in the RssFeedEmitter
 func (r *RssFeedEmitter) Add(url string) {
 	for _, feed := range r.feeds {
-		if feed.FeedLink == url {
+		if feed.Link == url {
 			return
 		}
 	}
@@ -52,7 +52,7 @@ func (r *RssFeedEmitter) List() *[]gofeed.Feed {
 // Remove expects a string and removes the feed from the list
 func (r *RssFeedEmitter) Remove(url string) {
 	for i := 0; i < len(r.feeds); i++ {
-		if r.feeds[i].FeedLink == url {
+		if r.feeds[i].Link == url {
 			r.feeds = append(r.feeds[:i], r.feeds[i+1:]...)
 		}
 	}
